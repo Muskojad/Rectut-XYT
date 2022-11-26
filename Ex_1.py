@@ -1,23 +1,17 @@
 import numpy as np
-import os
-
-def cls():
-    os.system('cls' if os.name=='nt' else 'clear')
 
 def make_new_order():
     pice = input("Type in price as an integer:")
     quant = input("Type in quantity as an integer:")
-    if quant or pice < 0:
-        return np.NaN
     new_oder = np.array([[pice],[quant]])
     return new_oder
 
 
 def printing_action(string):
-    print("what kind of order would You like to ",{string},
-          "\n type: \n sell - to", {string}, "sell order",
-                   "\n buy - to", {string}, "buy order")
-class Stock:
+    print("what kind of order would You like to ",string,
+          "\n type: \n sell - to", string, "sell order",
+                   "\n buy - to", string, "buy order")
+class Stocky:
     
     def __init__(self):
         self.sell_orders = np.array([[np.inf],[0]])                
@@ -31,7 +25,7 @@ class Stock:
             in_array = np.where(self.sell_orders[0] == new_sell_order[0])
             self.sell_orders[1][in_array] += new_sell_order[1]
         else:
-            self.sell_orders = np.column_stack(self.sell_orders, new_sell_order)
+            self.sell_orders = np.column_stack((self.sell_orders, new_sell_order))
 
     def add_buy_order(self, new_buy_order):
         if new_buy_order == np.NaN:
@@ -40,7 +34,7 @@ class Stock:
             in_array = np.where( self.buy_orders[0] == new_buy_order[0])
             self.buy_orders[1][in_array] += new_buy_order[1]
         else:
-            self.buy_orders = np.column_stack(self.buy_orders, new_buy_order)
+            self.buy_orders = np.column_stack((self.buy_orders, new_buy_order))
     
     def remove_sell_order(self, new_sell_order):
         if new_sell_order == np.NaN:
@@ -68,8 +62,6 @@ class Stock:
 
     def pirnt_best_orders(self):
         
-        cls()
-        
         sell_best_idex = self.sell_orders[0].argmin()
         best_sell_pirce = self.sell_orders[0][sell_best_idex]
         best_sell_quant = self.sell_orders[1][sell_best_idex]
@@ -90,14 +82,14 @@ class Stock:
 
 print("this is simple stock model")
 
-Stock = Stock()
+Stock = Stocky()
 
-def loop(void):
+def loop():
     while True:
-        user_input_1 = input ("\n type: \n add - if You wish to add an order",
-                              "\n remove - if You wish to remove an order",
-                              "\n exit - if You wish to stop the program")
-        
+        print("\n type: \n add - if You wish to add an order",
+              "\n remove - if You wish to remove an order",
+              "\n exit - if You wish to stop the program")
+        user_input_1 = input()
         if user_input_1 == "add":
             printing_action(user_input_1)
             user_input_2 = input()
@@ -126,9 +118,11 @@ def loop(void):
             
             
         elif user_input_1 == "exit":
+            print("bye bye")
             break
         else:
             pass
+        Stock.pirnt_best_orders()
 
 
-
+loop()

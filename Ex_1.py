@@ -12,7 +12,7 @@ def printing_action(string):
           "\n type: \n sell - to", {string}, "sell order",
                    "\n buy - to", {string}, "buy order")
 
-def user_input_2_analize(string):
+def user_input_2_analize(string, new_oder):
 
     if string == "sell":
         pass
@@ -31,10 +31,23 @@ def loop(void):
         if user_input_1 == "add":
             printing_action(user_input_1)
             user_input_2 = input()
+            if string == "sell":
+                new_oder = make_new_order()
+                add_sell_order(new_oder, sell_orders)
+            elif string == "buy":
+                new_oder = make_new_order()
+                add_buy_order(new_oder, buy_orders)
+                
+            else:
+                print("can't place order")
+                pass
             
         elif user_input_1 == "remove":
             printing_action(user_input_1)
             user_input_2 = input()
+            new_oder = make_new_order()
+            
+            
         elif user_input_1 == "exit":
             break
         else:

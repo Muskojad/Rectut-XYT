@@ -1,5 +1,8 @@
 import numpy as np
+import os
 
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
 
 print("this is simple stock model")
 
@@ -8,34 +11,50 @@ def printing_action(string):
     print("what kind of order would You like to ",{string},
           "\n type: \n sell - to", {string}, "sell order",
                    "\n buy - to", {string}, "buy order")
-    
+
+def user_input_2_analize(string):
+
+    if string == "sell":
+        pass
+    elif string == "buy":
+        pass
+    else:
+        print("can't place order")
+        pass
+
 def loop(void):
-   
-    user_imput_1 = input ("\n type: \n add - if You wish to add an order",
-                 "\n remove - if You wish to remove an order",
-                 "\n exit - if You wish to stop the program")
-    
-    match user_imput_1:
-        case "add"
-            pass
-        case
+    while True:
+        user_input_1 = input ("\n type: \n add - if You wish to add an order",
+                              "\n remove - if You wish to remove an order",
+                              "\n exit - if You wish to stop the program")
         
+        if user_input_1 == "add":
+            printing_action(user_input_1)
+            user_input_2 = input()
+            
+        elif user_input_1 == "remove":
+            printing_action(user_input_1)
+            user_input_2 = input()
+        elif user_input_1 == "exit":
+            break
+        else:
+            pass
 
-str_remove = "remove"
-str_add = "add"
 
 
-sell_orders = np.array([[np.NaN],
-                        [np.NaN]])
-buy_orders = np.array([[np.NaN],
-                       [np.NaN]])
+sell_orders = np.array([[np.inf],
+                        [0]])
+buy_orders = np.array([[0],
+                       [0]])
 
 
 
 
 
-def make_new_order(quant, pice):
-    if quant < 0:
+def make_new_order():
+    pice = input("Type in price as an integer:")
+    quant = input("Type in quantity as an integer:")
+    if quant or pice < 0:
         print("can't place order")
         return np.NaN
     new_oder = np.array([[pice],[quant]])
@@ -101,12 +120,14 @@ def remove_buy_order(new_buy_order, buy_orders):
 
 def pirnt_best_orders(sell_orders, buy_orders):
     
+    cls()
+    
     sell_best_idex = sell_orders[0].argmin()
     best_sell_pirce = sell_orders[0][sell_best_idex]
     best_sell_quant = sell_orders[1][sell_best_idex]
     print("Best selling price is:",{best_sell_pirce}, "available in amount of", {best_sell_quant})
 
-    buy_best_idex = buy_orders[0].argmin()
+    buy_best_idex = buy_orders[0].argmax()
     best_buy_pirce = buy_orders[0][buy_best_idex]
     best_buy_quant = buy_orders[1][buy_best_idex]
     print("Best buying price is:",{best_buy_pirce}, "available in amount of", {best_buy_quant})

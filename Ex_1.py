@@ -1,9 +1,14 @@
 import numpy as np
+import os
+
+
+def clear_console():
+    os.system('cls')
 
 def make_new_order():
-    pice = input("Type in price as an integer:")
-    quant = input("Type in quantity as an integer:")
-    new_oder = np.array([[pice],[quant]])
+    price = int(input("Type in price as an integer:"))
+    quant = int(input("Type in quantity as an integer:"))
+    new_oder = np.array([[price],[quant]])
     return new_oder
 
 
@@ -19,39 +24,33 @@ class Stocky:
                               
                 
     def add_sell_order(self, new_sell_order):
-        if new_sell_order == np.NaN:
-            print("can't place order")
-        elif new_sell_order[0] in self.sell_orders[0]:
-            in_array = np.where(self.sell_orders[0] == new_sell_order[0])
+        if new_sell_order[0] in self.sell_orders[0]:
+            in_array = np.where(self.sell_orders[0] == new_sell_order[0])[0]
             self.sell_orders[1][in_array] += new_sell_order[1]
         else:
             self.sell_orders = np.column_stack((self.sell_orders, new_sell_order))
 
     def add_buy_order(self, new_buy_order):
-        if new_buy_order == np.NaN:
-            print("can't place order")
-        elif new_buy_order[0] in self.buy_orders[0]:
-            in_array = np.where( self.buy_orders[0] == new_buy_order[0])
+        if new_buy_order[0] in self.buy_orders[0]:
+            in_array = np.where( self.buy_orders[0] == new_buy_order[0])[0]
             self.buy_orders[1][in_array] += new_buy_order[1]
         else:
             self.buy_orders = np.column_stack((self.buy_orders, new_buy_order))
     
     def remove_sell_order(self, new_sell_order):
-        if new_sell_order == np.NaN:
-            print("can't place order")
-        elif new_sell_order[0] in self.sell_orders[0]:
-            in_array = np.where(self.sell_orders[0] == new_sell_order[0])
+        if new_sell_order[0] in self.sell_orders[0]:
+            in_array = np.where(self.sell_orders[0] == new_sell_order[0])[0]
             result = self.sell_orders[1][in_array] - new_sell_order[1]
             if result < 0:
                 print("can't place order")
             else:
                 self.sell_orders[1][in_array] -= result
+        else:
+            print("can't place order")
 
     def remove_buy_order(self, new_buy_order):
-        if new_buy_order == np.NaN:
-            print("can't place order")
-        elif new_buy_order[0] in self.buy_orders[0]:
-            in_array = np.where(self.buy_orders[0] == new_buy_order[0])
+        if new_buy_order[0] in self.buy_orders[0]:
+            in_array = np.where(self.buy_orders[0] == new_buy_order[0])[0]
             result = self.buy_orders[1][in_array] - new_buy_order[1]
             if result < 0:
                 print("can't place order")
@@ -61,6 +60,8 @@ class Stocky:
             print("can't place order")
 
     def pirnt_best_orders(self):
+        
+        clear_console()
         
         sell_best_idex = self.sell_orders[0].argmin()
         best_sell_pirce = self.sell_orders[0][sell_best_idex]
